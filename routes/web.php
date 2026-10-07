@@ -5,13 +5,17 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-// Halaman portofolio publik (dari tugas minggu lalu).
+// Halaman portofolio publik, datanya dibaca dari database akun pemilik portofolio.
 Route::controller(PageController::class)->group(function () {
     Route::get('/', 'beranda')->name('beranda');
     Route::get('/beranda', 'beranda');
     Route::get('/profil-mahasiswa', 'profil')->name('profil');
     Route::get('/ide-agent', 'ideAgent')->name('ide-agent');
-    Route::post('/ide-agent', 'submitIde')->name('ide-agent.submit');
+
+    // Menyimpan proposal ke database, jadi wajib login.
+    Route::post('/ide-agent', 'submitIde')
+        ->middleware(['auth', 'verified'])
+        ->name('ide-agent.submit');
 });
 
 // Dashboard profil: hanya untuk user yang login dan sudah terverifikasi.

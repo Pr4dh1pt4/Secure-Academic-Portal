@@ -18,7 +18,7 @@
     <header class="border-b {{ $isDark ? 'border-slate-800 bg-slate-900' : 'border-slate-200 bg-white' }}">
         <nav class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-4">
             <a href="{{ route('beranda') }}" class="text-lg font-bold tracking-tight">
-                <span class="text-teal-600">PRM</span> · Profil Akademik
+                <span class="text-teal-600">{{ $owner->inisial() }}</span> · Profil Akademik
             </a>
             <ul class="flex gap-1 text-sm font-medium">
                 @foreach ($navLinks as $link)
@@ -50,7 +50,7 @@
     </main>
 
     <footer class="border-t py-6 text-center text-sm {{ $isDark ? 'border-slate-800 bg-slate-900 text-slate-400' : 'border-slate-200 bg-white text-slate-500' }}">
-        &copy; {{ date('Y') }} Pradhipta Raja Mahendra · Institut Teknologi Sepuluh Nopember (ITS)
+        &copy; {{ date('Y') }} {{ $owner->name }} · Institut Teknologi Sepuluh Nopember (ITS)
     </footer>
 </body>
 </html>

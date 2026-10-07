@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 /**
@@ -23,7 +22,7 @@ class DashboardController extends Controller
 
         return view('dashboard', [
             'user' => $user,
-            'peran' => Str::endsWith($user->email, '@student.its.ac.id') ? 'Mahasiswa' : 'Dosen / Penguji',
+            'peran' => $user->isMahasiswa() ? 'Mahasiswa' : 'Dosen / Penguji',
             'projects' => $user->projects()->latest()->get(),
             'assignments' => $user->assignments()->latest('dikumpulkan_pada')->get(),
         ]);

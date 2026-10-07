@@ -11,7 +11,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password'])]
+/**
+ * Akun pengguna portal: mahasiswa (@student.its.ac.id) atau dosen/penguji.
+ */
+#[Fillable(['name', 'email', 'password', 'nrp', 'program_studi', 'bio', 'minat', 'keahlian'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -28,7 +31,28 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'minat' => 'array',
+            'keahlian' => 'array',
         ];
+    }
+
+    /**
+     * Apakah akun ini milik mahasiswa (berdomain email student ITS).
+     */
+    public function isMahasiswa(): bool
+    {
+        return str_ends_with($this->email, '@student.its.ac.id');
+    }
+
+    /**
+     * Inisial nama (maks. 2 huruf) untuk avatar, mis. "PR".
+     */
+    public function inisial(): string
+    {
+        return collect(explode(' ', $this->name))
+            ->take(2)
+            ->map(fn (string $kata) => mb_strtoupper(mb_substr($kata, 0, 1)))
+            ->implode('');
     }
 
     /**

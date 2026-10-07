@@ -15,6 +15,7 @@ use Illuminate\Support\Carbon;
  * @property int $user_id
  * @property string $judul
  * @property string|null $deskripsi
+ * @property list<array{judul: string, keterangan: string}>|null $tahapan
  * @property string $tema_agent
  * @property string $api_key_secure Plaintext saat dibaca dari model, terenkripsi di database.
  * @property Carbon|null $created_at
@@ -38,6 +39,7 @@ class Project extends Model
     protected $fillable = [
         'judul',
         'deskripsi',
+        'tahapan',
         'tema_agent',
         'api_key_secure',
     ];
@@ -61,6 +63,7 @@ class Project extends Model
         return [
             // Dienkripsi dengan APP_KEY saat disimpan, didekripsi saat dibaca.
             'api_key_secure' => 'encrypted',
+            'tahapan' => 'array',
         ];
     }
 

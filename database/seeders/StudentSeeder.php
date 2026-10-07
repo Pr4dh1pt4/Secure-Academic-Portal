@@ -9,15 +9,15 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 /**
- * Seeder 15 akun mahasiswa acak, masing-masing dengan tepat 2 proposal project
- * dan 3 riwayat tugas kuliah.
+ * Seeder akun mahasiswa acak hingga total 15 mahasiswa (termasuk pemilik portofolio),
+ * masing-masing dengan tepat 2 proposal project dan 3 riwayat tugas kuliah.
  */
 class StudentSeeder extends Seeder
 {
     use WithoutModelEvents;
 
     /**
-     * Jumlah mahasiswa acak yang dibutuhkan.
+     * Target jumlah akun mahasiswa (@student.its.ac.id) di database.
      */
     private const JUMLAH_MAHASISWA = 15;
 

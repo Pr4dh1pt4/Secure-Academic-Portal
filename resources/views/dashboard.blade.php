@@ -6,13 +6,19 @@
     </x-slot>
 
     <div class="py-12">
+        @if (session('status'))
+            <div class="mx-auto mb-6 max-w-7xl sm:px-6 lg:px-8">
+                <x-status-banner type="success" title="Berhasil">{{ session('status') }}</x-status-banner>
+            </div>
+        @endif
+
         <div class="mx-auto grid max-w-7xl gap-6 sm:px-6 lg:grid-cols-3 lg:px-8">
             {{-- Profil diri --}}
             <section class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="h-20 bg-linear-to-r from-teal-600 to-sky-600"></div>
                 <div class="px-6 pb-6">
                     <div class="-mt-10 mb-4 flex size-20 items-center justify-center rounded-full border-4 border-white bg-slate-800 text-2xl font-bold text-white">
-                        {{ collect(explode(' ', $user->name))->take(2)->map(fn ($kata) => mb_substr($kata, 0, 1))->implode('') }}
+                        {{ $user->inisial() }}
                     </div>
                     <h3 class="text-xl font-bold text-gray-900">{{ $user->name }}</h3>
                     <p class="text-teal-700">{{ $peran }}</p>
@@ -22,10 +28,22 @@
                             <dt class="font-semibold text-gray-500">Email</dt>
                             <dd class="break-all">{{ $user->email }}</dd>
                         </div>
+                        @if ($user->nrp)
+                            <div>
+                                <dt class="font-semibold text-gray-500">NRP</dt>
+                                <dd>{{ $user->nrp }}</dd>
+                            </div>
+                        @endif
                         <div>
                             <dt class="font-semibold text-gray-500">Kampus</dt>
                             <dd>Institut Teknologi Sepuluh Nopember (ITS)</dd>
                         </div>
+                        @if ($user->program_studi)
+                            <div>
+                                <dt class="font-semibold text-gray-500">Program Studi</dt>
+                                <dd>{{ $user->program_studi }}</dd>
+                            </div>
+                        @endif
                         <div>
                             <dt class="font-semibold text-gray-500">Bergabung</dt>
                             <dd>{{ $user->created_at->translatedFormat('d F Y') }}</dd>
@@ -35,6 +53,21 @@
                             <dd>{{ $projects->count() }}</dd>
                         </div>
                     </dl>
+
+                    @if ($user->bio)
+                        <p class="mt-4 text-sm leading-relaxed text-gray-600">{{ $user->bio }}</p>
+                    @endif
+
+                    @foreach (['Minat' => $user->minat, 'Keahlian' => $user->keahlian] as $label => $daftar)
+                        @if (! empty($daftar))
+                            <p class="mt-4 mb-1 text-sm font-semibold text-gray-500">{{ $label }}</p>
+                            <div class="flex flex-wrap gap-2">
+                                @foreach ($daftar as $item)
+                                    <span class="rounded-full bg-teal-50 px-3 py-1 text-xs text-teal-800">{{ $item }}</span>
+                                @endforeach
+                            </div>
+                        @endif
+                    @endforeach
                 </div>
             </section>
 
@@ -62,7 +95,8 @@
                 @endforelse
             </section>
 
-            {{-- Riwayat tugas kuliah, pengumpulan terbaru di atas --}}
+            {{-- Riwayat tugas kuliah (khusus mahasiswa), pengumpulan terbaru di atas --}}
+            @if ($user->isMahasiswa())
             <section class="bg-white p-6 shadow-sm sm:rounded-lg lg:col-span-3">
                 <h3 class="mb-4 text-lg font-semibold text-gray-900">Riwayat Tugas Kuliah</h3>
 
@@ -107,6 +141,7 @@
                     </div>
                 @endif
             </section>
+            @endif
         </div>
     </div>
 </x-app-layout>

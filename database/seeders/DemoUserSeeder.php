@@ -7,8 +7,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 /**
- * Seeder akun demo penguji (dosenpbkk@its.ac.id) dengan 3 proposal portofolio
- * dan riwayat tugas PBKK, siap presentasi.
+ * Seeder akun demo penguji (dosenpbkk@its.ac.id) dengan 3 proposal portofolio siap presentasi.
  *
  * Memakai updateOrCreate sehingga aman dijalankan berulang kali.
  */
@@ -56,50 +55,7 @@ class DemoUserSeeder extends Seeder
     ];
 
     /**
-     * Riwayat tugas PBKK sepanjang semester. Nilai dikosongkan karena belum diumumkan.
-     *
-     * @var list<array{mata_kuliah: string, judul: string, deskripsi: string, tautan: string|null, dikumpulkan_pada: string}>
-     */
-    private const ASSIGNMENTS = [
-        [
-            'mata_kuliah' => 'Pemrograman Berbasis Kerangka Kerja',
-            'judul' => 'Tugas 1: Sistem Informasi Statik Profil Mahasiswa (Kelompok 7)',
-            'deskripsi' => 'Website profil akademik ITS berbasis Laravel sesuai PRD kelompok, dengan halaman statis dan routing dasar.',
-            'tautan' => 'https://github.com/Renggosakti/PBKK_Tugas-1_Kelompok-7',
-            'dikumpulkan_pada' => '2026-09-08',
-        ],
-        [
-            'mata_kuliah' => 'Pemrograman Berbasis Kerangka Kerja',
-            'judul' => 'Routing Sandbox Profil Akademik (Individu)',
-            'deskripsi' => 'Eksplorasi routing dan controller Laravel: halaman dashboard, profil, data IPK, dan rancangan ide agen.',
-            'tautan' => 'https://github.com/Pr4dh1pt4/Website-Pemrograman-Berbasis-Kerangka-Kerja',
-            'dikumpulkan_pada' => '2026-09-14',
-        ],
-        [
-            'mata_kuliah' => 'Pemrograman Berbasis Kerangka Kerja',
-            'judul' => 'Secure Feedback Hub (Form GET/POST)',
-            'deskripsi' => 'Portal umpan balik mahasiswa dengan validasi Form Request, proteksi CSRF, dan captcha penjumlahan.',
-            'tautan' => null,
-            'dikumpulkan_pada' => '2026-09-21',
-        ],
-        [
-            'mata_kuliah' => 'Pemrograman Berbasis Kerangka Kerja',
-            'judul' => 'Tugas 4: Aplikasi Multi-View Profil Akademik',
-            'deskripsi' => 'Master layout Blade, komponen anonim, dan halaman Ide-Riset yang memvisualisasikan pipeline Agentic AI.',
-            'tautan' => 'https://github.com/Pr4dh1pt4/PBKK-Agentic-AI',
-            'dikumpulkan_pada' => '2026-09-24',
-        ],
-        [
-            'mata_kuliah' => 'Pemrograman Berbasis Kerangka Kerja',
-            'judul' => 'Secure Academic Portal Database',
-            'deskripsi' => 'Memindahkan data portofolio dari variabel controller ke MySQL: migration, foreign key cascade, $fillable, factory, dan seeder.',
-            'tautan' => null,
-            'dikumpulkan_pada' => '2026-10-07',
-        ],
-    ];
-
-    /**
-     * Buat atau perbarui akun demo beserta project dan riwayat tugasnya.
+     * Buat atau perbarui akun demo beserta project-nya.
      */
     public function run(): void
     {
@@ -107,6 +63,8 @@ class DemoUserSeeder extends Seeder
             ['email' => 'dosenpbkk@its.ac.id'],
             [
                 'name' => 'Dosen PBKK',
+                'program_studi' => 'Teknik Informatika',
+                'bio' => 'Akun demo penguji mata kuliah Pemrograman Berbasis Kerangka Kerja (PBKK).',
                 'password' => 'password', // Di-hash otomatis oleh cast 'hashed' di model User.
             ],
         );
@@ -121,10 +79,6 @@ class DemoUserSeeder extends Seeder
             // Lewat relasi, user_id terisi otomatis tanpa perlu masuk $fillable.
             $project = $dosen->projects()->updateOrCreate(['judul' => $data['judul']], $data);
             $project->forceFill(['created_at' => $tanggal, 'updated_at' => $tanggal])->save();
-        }
-
-        foreach (self::ASSIGNMENTS as $data) {
-            $dosen->assignments()->updateOrCreate(['judul' => $data['judul']], $data);
         }
     }
 }
