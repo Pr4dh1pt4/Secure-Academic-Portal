@@ -39,7 +39,7 @@ npm run build
 php artisan serve
 ```
 
-Buka http://127.0.0.1:8000 untuk portofolio publik, atau klik **Masuk** dan login dengan salah satu akun di atas.
+Buka http://127.0.0.1:8000 untuk portal kampus, http://127.0.0.1:8000/portofolio untuk portofolio publik, atau klik **Masuk** dan login dengan salah satu akun di atas.
 
 ## Skema Database
 
@@ -59,7 +59,8 @@ Di Tugas 4, profil, skill, dan tahapan pipeline AutoQA Agent ditulis sebagai arr
 
 | Halaman | Sumber data |
 |---|---|
-| `/` Beranda | Nama, bio, jumlah proposal, dan jumlah tugas pemilik portofolio |
+| `/` Portal kampus (umum) | Statistik agregat, sebaran mahasiswa per program studi, dan proposal terbaru seluruh mahasiswa, tanpa email, NRP, maupun API key |
+| `/portofolio` Beranda portofolio | Nama, bio, jumlah proposal, dan jumlah tugas pemilik portofolio |
 | `/profil-mahasiswa` | Kolom profil di `users` + riwayat tugas dari `assignments` |
 | `/ide-agent` | Proposal unggulan (punya `tahapan`) dan proposal lain dari `projects`. Formulir ide menyimpan ke `projects` milik user yang login. |
 | `/dashboard` | Data milik user yang sedang login |
@@ -91,14 +92,14 @@ Akun pemilik portofolio diatur lewat `PORTFOLIO_OWNER_EMAIL` (default di `config
 ## Pengujian
 
 ```bash
-php artisan test          # Breeze + DashboardTest (isolasi data, cascade) + PortfolioTest (halaman publik dari DB, formulir aman)
+php artisan test          # Breeze + DashboardTest (isolasi data, cascade) + PortalTest (portal umum tanpa data sensitif) + PortfolioTest (halaman publik dari DB, formulir aman)
 ./vendor/bin/pint --test  # PSR-12
 ```
 
 ## Struktur File Utama
 
 ```
-app/Http/Controllers/{Dashboard,Page}Controller.php
+app/Http/Controllers/{Dashboard,Page,Portal}Controller.php
 app/Http/Requests/StoreProjectRequest.php
 config/portfolio.php
 app/Models/{User,Project,Assignment}.php
@@ -108,9 +109,9 @@ database/migrations/*_add_profile_columns_to_users_table.php
 database/migrations/*_add_tahapan_to_projects_table.php
 database/factories/{User,Project,Assignment}Factory.php
 database/seeders/{Database,PortfolioOwner,Student,DemoUser}Seeder.php
-resources/views/dashboard.blade.php
+resources/views/{portal,dashboard}.blade.php
 resources/views/pages/{beranda,profil,ide-agent}.blade.php
-tests/Feature/{Dashboard,Portfolio}Test.php
+tests/Feature/{Dashboard,Portal,Portfolio}Test.php
 ```
 
 Halaman portofolio publik memakai layout `resources/views/layouts/portfolio.blade.php`; halaman yang butuh login memakai layout Breeze.

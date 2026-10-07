@@ -1,6 +1,7 @@
 @php
     $isDark = $isDark ?? false;
     $navLinks = [
+        ['route' => 'portal', 'label' => 'Portal'],
         ['route' => 'beranda', 'label' => 'Beranda'],
         ['route' => 'profil', 'label' => 'Profil'],
         ['route' => 'ide-agent', 'label' => 'Ide-Riset'],

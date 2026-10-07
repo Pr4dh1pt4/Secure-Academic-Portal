@@ -2,12 +2,16 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PortalController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+// Portal kampus untuk umum.
+Route::get('/', [PortalController::class, 'index'])->name('portal');
+
 // Halaman portofolio publik, datanya dibaca dari database akun pemilik portofolio.
 Route::controller(PageController::class)->group(function () {
-    Route::get('/', 'beranda')->name('beranda');
+    Route::get('/portofolio', 'beranda')->name('beranda');
     Route::get('/beranda', 'beranda');
     Route::get('/profil-mahasiswa', 'profil')->name('profil');
     Route::get('/ide-agent', 'ideAgent')->name('ide-agent');

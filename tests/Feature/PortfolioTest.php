@@ -33,7 +33,7 @@ class PortfolioTest extends TestCase
         $this->owner()->update(['name' => 'Nama Dari Database', 'keahlian' => ['Rust']]);
         $this->owner()->projects()->where('judul', 'AutoQA Agent')->update(['judul' => 'AutoQA Agent v2']);
 
-        $this->get('/')->assertOk()->assertSee('Nama Dari Database');
+        $this->get('/portofolio')->assertOk()->assertSee('Nama Dari Database');
         $this->get('/profil-mahasiswa')->assertOk()->assertSee('Rust')->assertSee('Tugas 4: Aplikasi Multi-View Profil Akademik');
         $this->get('/ide-agent')->assertOk()->assertSee('AutoQA Agent v2')->assertSee('Verified Pull Request');
     }
