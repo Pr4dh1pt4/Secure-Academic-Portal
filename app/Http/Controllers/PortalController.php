@@ -40,8 +40,6 @@ class PortalController extends Controller
                 ->latest()
                 ->take(6)
                 ->get(['id', 'user_id', 'judul', 'tema_agent', 'created_at']),
-            'pemilikPortofolio' => User::where('email', config('portfolio.owner_email'))
-                ->first(['id', 'name', 'program_studi', 'bio']),
         ]);
     }
 }

@@ -98,16 +98,6 @@
                             @endforelse
                         </ul>
                     </section>
-
-                    {{-- Tautan ke portofolio publik --}}
-                    @if ($pemilikPortofolio)
-                        <section class="rounded-2xl border border-teal-200 bg-teal-50 p-6 shadow-sm">
-                            <p class="text-xs font-semibold uppercase tracking-wide text-teal-700">Portofolio Unggulan</p>
-                            <h2 class="mt-1 text-lg font-semibold text-slate-900">{{ $pemilikPortofolio->name }}</h2>
-                            <p class="text-sm text-teal-800">{{ $pemilikPortofolio->program_studi }}</p>
-                            <a href="{{ route('beranda') }}" class="mt-4 inline-block rounded-lg bg-teal-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-teal-700">Lihat portofolio →</a>
-                        </section>
-                    @endif
                 </div>
             </div>
         </div>

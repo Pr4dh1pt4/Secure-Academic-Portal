@@ -24,7 +24,9 @@ class PortalTest extends TestCase
             ->assertOk()
             ->assertSee('Portal Portofolio Akademik Mahasiswa')
             ->assertSee('Masuk ke Portal')
-            ->assertDontSee($owner->bio);
+            ->assertDontSee($owner->bio)
+            ->assertDontSee('Portofolio Unggulan')
+            ->assertDontSee(route('beranda'));
     }
 
     public function test_portal_shows_statistics_without_sensitive_data(): void
@@ -40,8 +42,8 @@ class PortalTest extends TestCase
             ->assertDontSee($project->api_key_secure);
     }
 
-    public function test_portal_works_without_portfolio_owner(): void
+    public function test_portal_works_on_empty_database(): void
     {
-        $this->get('/')->assertOk()->assertDontSee('Portofolio Unggulan');
+        $this->get('/')->assertOk()->assertSee('Belum ada proposal.');
     }
 }
