@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Database\Seeders\DemoUserSeeder;
 use Database\Seeders\PortfolioOwnerSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
@@ -35,6 +36,17 @@ class PortfolioTest extends TestCase
         $this->get('/')->assertOk()->assertSee('Nama Dari Database');
         $this->get('/profil-mahasiswa')->assertOk()->assertSee('Rust')->assertSee('Tugas 4: Aplikasi Multi-View Profil Akademik');
         $this->get('/ide-agent')->assertOk()->assertSee('AutoQA Agent v2')->assertSee('Verified Pull Request');
+    }
+
+    public function test_portfolio_link_only_shown_to_portfolio_owner(): void
+    {
+        $this->seed(DemoUserSeeder::class);
+        $dosen = User::where('email', 'dosenpbkk@its.ac.id')->firstOrFail();
+        $mahasiswaLain = User::factory()->create();
+
+        $this->actingAs($dosen)->get('/dashboard')->assertOk()->assertDontSee('Portofolio Publik');
+        $this->actingAs($mahasiswaLain)->get('/dashboard')->assertOk()->assertDontSee('Portofolio Publik');
+        $this->actingAs($this->owner())->get('/dashboard')->assertOk()->assertSee('Portofolio Publik Saya');
     }
 
     public function test_guest_cannot_submit_idea(): void

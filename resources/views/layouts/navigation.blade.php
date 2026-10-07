@@ -15,9 +15,12 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('beranda')">
-                        Portofolio Publik
-                    </x-nav-link>
+                    {{-- Portofolio publik hanya milik akun pemilik portofolio, bukan dosen/mahasiswa lain --}}
+                    @if (Auth::user()->isPemilikPortofolio())
+                        <x-nav-link :href="route('beranda')">
+                            Portofolio Publik Saya
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -73,9 +76,11 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('beranda')">
-                Portofolio Publik
-            </x-responsive-nav-link>
+            @if (Auth::user()->isPemilikPortofolio())
+                <x-responsive-nav-link :href="route('beranda')">
+                    Portofolio Publik Saya
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

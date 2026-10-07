@@ -45,6 +45,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Apakah akun ini pemilik portofolio publik (lihat config/portfolio.php).
+     */
+    public function isPemilikPortofolio(): bool
+    {
+        return $this->email === config('portfolio.owner_email');
+    }
+
+    /**
      * Inisial nama (maks. 2 huruf) untuk avatar, mis. "PR".
      */
     public function inisial(): string
