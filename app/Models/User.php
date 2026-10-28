@@ -82,4 +82,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Assignment::class);
     }
+
+    /**
+     * Sesi obrolan user ini dengan agent AI.
+     *
+     * @return HasMany<ChatSession, $this>
+     */
+    public function chatSessions(): HasMany
+    {
+        return $this->hasMany(ChatSession::class);
+    }
 }

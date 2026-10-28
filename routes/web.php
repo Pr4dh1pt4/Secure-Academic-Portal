@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PortalController;
@@ -26,6 +27,14 @@ Route::controller(PageController::class)->group(function () {
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+
+// Riwayat obrolan Agentic AI: hanya sesi milik user yang login.
+Route::controller(ChatController::class)
+    ->middleware(['auth', 'verified'])
+    ->group(function () {
+        Route::get('/chat', 'index')->name('chat.index');
+        Route::get('/chat/{chatSession}', 'show')->whereNumber('chatSession')->name('chat.show');
+    });
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
